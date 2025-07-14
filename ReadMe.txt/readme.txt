@@ -4,13 +4,13 @@
 -- Tabla Usuario
 CREATE TABLE Usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tipoDocumento VARCHAR(50) NOT NULL,
+    tipoDocumento VARCHAR(50),
     NoDocumento VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(255) NOT NULL,
-    tipoUsuario VARCHAR(50) NOT NULL,
-    correo VARCHAR(255) NOT NULL UNIQUE,
+    tipoUsuario VARCHAR(50) ,
+    correo VARCHAR(255) UNIQUE,
     celular VARCHAR(20),
-    fechaNacimiento DATE NOT NULL
+    fechaNacimiento DATE 
 );
 
 CREATE TABLE patentes (
@@ -21,29 +21,25 @@ CREATE TABLE patentes (
     fecha DATE NOT NULL,
     estado VARCHAR(50) NOT NULL,
     id_solicitante INT NOT NULL,
-    id_inventor INT NOT NULL,
-    id_apoderado INT NOT NULL,
+    inventor VARCHAR(200) NOT NULL,
+    apoderado VARCHAR(200) NOT NULL,
     cip VARCHAR(100) NOT NULL,
     FOREIGN KEY (id_solicitante) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_inventor) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_apoderado) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Tabla solicitudPatentes
 CREATE TABLE solicitudPatentes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    expediente VARCHAR(100) NOT NULL,
+    expediente VARCHAR(100) NOT NULL UNIQUE,
     tipoPatente VARCHAR(100) NOT NULL,
     titulo VARCHAR(500) NOT NULL,
     fecha DATE NOT NULL,
     estado VARCHAR(50) NOT NULL,
     id_solicitante INT NOT NULL,
-    id_inventor INT NOT NULL,
-    id_apoderado INT,
-    cip VARCHAR(100),
+    inventor VARCHAR(200) NOT NULL,
+    apoderado VARCHAR(200) NOT NULL,
+    cip VARCHAR(100) NOT NULL,
     FOREIGN KEY (id_solicitante) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_inventor) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_apoderado) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Tabla solicitudProyectos
@@ -53,10 +49,9 @@ CREATE TABLE solicitudProyectos (
     titulo VARCHAR(500) NOT NULL,
     fecha DATE NOT NULL,
     estado VARCHAR(50) NOT NULL,
-    id_solicitante INT NOT NULL,
-    id_inventor INT NOT NULL,
+    solicitante VARCHAR() NOT NULL,
+    inventor VARCHAR() NOT NULL,
     FOREIGN KEY (id_solicitante) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_inventor) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Tabla proyectos
@@ -66,8 +61,8 @@ CREATE TABLE proyectos (
     titulo VARCHAR(500) NOT NULL,
     fecha DATE NOT NULL,
     estado VARCHAR(50) NOT NULL,
-    id_solicitante INT NOT NULL,
-    id_inventor INT NOT NULL,
+    solicitante VARCHAR() NOT NULL,
+    inventor VARCHAR() NOT NULL,
     FOREIGN KEY (id_solicitante) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_inventor) REFERENCES Usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+aaaaaaaaaaaaaaaaaaaaaaaaaaaa
