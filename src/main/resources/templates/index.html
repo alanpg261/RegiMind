@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Búsqueda de Patentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-blue-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-blue-600 font-bold text-xl">📋</span>
+                    </div>
+                    <h1 class="text-2xl font-bold">RegiMind</h1>
+                </div>
+                <nav id="auth-nav" class="hidden">
+                    <span id="user-welcome" class="mr-4 text-pink-200"></span>
+                    <button id="logout-btn" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg font-medium transition-colors">Cerrar Sesión</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <!-- Login Section -->
+            <section id="login-section" class="max-w-md mx-auto">
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-blue-600 text-2xl">🔐</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Iniciar Sesión</h2>
+                        <p class="text-gray-600 mt-2">Accede al sistema de búsqueda de patentes</p>
+                    </div>
+                    <form id="login-form" class="space-y-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                            <input type="email" id="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                            <input type="password" id="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="user-type" class="block text-sm font-medium text-gray-700">Tipo de Usuario</label>
+                            <select id="user-type" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                <option value="browser">Navegador</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">Ingresar</button>
+                        </div>
+                    </form>
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-600">Credenciales de prueba:</p>
+                        <p class="text-xs text-gray-500">Navegador: navegador@ejemplo.com / 123456</p>
+                        <p class="text-xs text-gray-500">Admin: admin@ejemplo.com / admin123</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Browser Dashboard -->
+            <section id="browser-dashboard" class="hidden-section">
+                <!-- Welcome Banner -->
+                <div class="search-card p-6 rounded-lg shadow-lg mb-8">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold mb-2">¡Bienvenido al Buscador de Patentes!</h2>
+                        <p class="text-lg opacity-90">Encuentra información detallada sobre patentes registradas</p>
+                    </div>
+                </div>
+
+                <!-- Search Section -->
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Buscar Patentes</h3>
+                        <p class="text-gray-600">Ingresa los términos de búsqueda para encontrar patentes específicas</p>
+                    </div>
+                    
+                    <div class="max-w-4xl mx-auto">
+                        <!-- Main Search Bar -->
+                        <div class="relative mb-6">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 text-xl">🔍</span>
+                            </div>
+                            <input type="text" id="search-query" 
+                                   placeholder="Buscar por número de patente, título, inventor o descripción..." 
+                                   class="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg">
+                            <button id="search-btn" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <span class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors">Buscar</span>
+                            </button>
+                        </div>
+
+                        <!-- Search Filters -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div>
+                                <label for="filter-category" class="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
+                                <select id="filter-category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Todas las categorías</option>
+                                    <option value="Tecnología">Tecnología</option>
+                                    <option value="Medicina">Medicina</option>
+                                    <option value="Energía">Energía</option>
+                                    <option value="Transporte">Transporte</option>
+                                    <option value="Agricultura">Agricultura</option>
+                                    <option value="Construcción">Construcción</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="filter-year" class="block text-sm font-medium text-gray-700 mb-2">Año</label>
+                                <select id="filter-year" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Todos los años</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="filter-status" class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+                                <select id="filter-status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Todos los estados</option>
+                                    <option value="Activa">Activa</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Expirada">Expirada</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Quick Search Buttons -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-sm text-gray-600 mr-2">Búsquedas populares:</span>
+                            <button class="quick-search-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors" data-query="inteligencia artificial">
+                                Inteligencia Artificial
+                            </button>
+                            <button class="quick-search-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors" data-query="energía solar">
+                                Energía Solar
+                            </button>
+                            <button class="quick-search-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors" data-query="medicina">
+                                Medicina
+                            </button>
+                            <button class="quick-search-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors" data-query="transporte">
+                                Transporte
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <div id="search-results-container" class="hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-gray-800">Resultados de Búsqueda</h3>
+                            <div id="results-count" class="text-sm text-gray-600"></div>
+                        </div>
+                        <div id="search-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Results will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading-state" class="hidden">
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                        <div class="animate-pulse-custom">
+                            <div class="text-4xl mb-4">🔍</div>
+                            <p class="text-gray-600">Buscando patentes...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Dashboard -->
+            <section id="admin-dashboard" class="hidden-section">
+                <div class="search-highlight p-6 rounded-lg shadow-lg mb-8">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold mb-2">Panel de Administración</h2>
+                        <p class="text-lg opacity-90">Gestiona el sistema de patentes</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">Estadísticas</h3>
+                        <div class="space-y-3">
+                            <p class="text-gray-600">Patentes registradas: <span id="total-patents" class="font-bold text-blue-600">0</span></p>
+                            <p class="text-gray-600">Usuarios navegadores: <span id="total-browsers" class="font-bold text-blue-600">0</span></p>
+                            <p class="text-gray-600">Búsquedas hoy: <span id="today-searches" class="font-bold text-blue-600">0</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">Acciones Rápidas</h3>
+                        <div class="space-y-3">
+                            <button id="add-patent-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors">Agregar Nueva Patente</button>
+                            <button id="manage-users-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">Gestionar Usuarios</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">Últimas Actividades</h3>
+                        <div id="recent-activities" class="space-y-2">
+                            <p class="text-gray-500 text-sm">No hay actividades recientes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patent Management -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">Gestión de Patentes</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Número</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Título</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Inventor</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patents-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Patents will be listed here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Add Patent Modal -->
+                <div id="add-patent-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+                    <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">Agregar Nueva Patente</h3>
+                        <form id="add-patent-form" class="space-y-4">
+                            <div>
+                                <label for="patent-number" class="block text-sm font-medium text-gray-700">Número de Patente</label>
+                                <input type="text" id="patent-number" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div>
+                                <label for="patent-title" class="block text-sm font-medium text-gray-700">Título</label>
+                                <input type="text" id="patent-title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div>
+                                <label for="patent-inventor" class="block text-sm font-medium text-gray-700">Inventor</label>
+                                <input type="text" id="patent-inventor" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div>
+                                <label for="patent-date" class="block text-sm font-medium text-gray-700">Fecha</label>
+                                <input type="date" id="patent-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div>
+                                <label for="patent-category" class="block text-sm font-medium text-gray-700">Categoría</label>
+                                <select id="patent-category" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="Tecnología">Tecnología</option>
+                                    <option value="Medicina">Medicina</option>
+                                    <option value="Energía">Energía</option>
+                                    <option value="Transporte">Transporte</option>
+                                    <option value="Agricultura">Agricultura</option>
+                                    <option value="Construcción">Construcción</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="patent-status" class="block text-sm font-medium text-gray-700">Estado</label>
+                                <select id="patent-status" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="Activa">Activa</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Expirada">Expirada</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" id="cancel-add-patent" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Cancelar</button>
+                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-6">
+            <div class="container mx-auto px-4 text-center">
+                <p>Sistema de Búsqueda de Patentes &copy; 2025 - Todos los derechos reservados</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
