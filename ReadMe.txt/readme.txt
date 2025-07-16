@@ -1,4 +1,4 @@
-https://prod.liveshare.vsengsaas.visualstudio.com/join?28365AA17213EB0A4569405658CAF1763854
+https://prod.liveshare.vsengsaas.visualstudio.com/join?1B8360F70D9C6A0477B5680E754E352973BC
 Endpoint Registro y login:
 http://localhost:8080/api/usuarios/login   (post)
 http://localhost:8080/api/usuarios/registro   (post)
