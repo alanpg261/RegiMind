@@ -1,3 +1,24 @@
+Endpoint Registro y login:
+http://localhost:8080/api/usuarios/login   (post)
+http://localhost:8080/api/usuarios/registro   (post)
+
+
+endpoint busqueda patente:
+http://localhost:8080/api/patentes/buscar  (post)
+    {
+  "cip": "A01B",
+  "titulo": "semilla",
+  "tipoPatente": "invención",
+  "fechaInicio": "2023-01-01",
+  "fechaFin": "2023-12-31"
+    }
+
+
+
+
+
+
+
 -- Crear base de datos (opcional)
 -- CREATE DATABASE sistema_patentes;
 -- USE sistema_patentes;
