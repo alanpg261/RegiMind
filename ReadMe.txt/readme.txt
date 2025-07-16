@@ -8,7 +8,7 @@ CREATE TABLE Usuario (
     NoDocumento VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(255) NOT NULL,
     tipoUsuario VARCHAR(50) ,
-    correo VARCHAR(255) UNIQUE,
+    correo VARCHAR(255) UNIQUE,z
     celular VARCHAR(20),
     fechaNacimiento DATE 
 );
