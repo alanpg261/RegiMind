@@ -15,6 +15,16 @@ http://localhost:8080/api/patentes/buscar  (post)
 
 
 
+    solicitudes faltantes:
+    - crear solicitud del solicitante (tabla temporal)
+
+        (solicitud patentes)
+        
+    - crear el mostrador de patentes solicitadas en dashboard de admin
+    - aceptar solicitud de patente y agregarla a la tabla principal
+
+
+
 
 
 
