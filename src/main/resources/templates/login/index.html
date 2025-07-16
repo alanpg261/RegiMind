@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - RegiMind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-blue-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-blue-600 font-bold text-xl">📋</span>
+                    </div>
+                    <h1 class="text-2xl font-bold">RegiMind</h1>
+                </div>
+            </div>
+        </header>
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <!-- Login Section -->
+            <section id="login-section" class="max-w-md mx-auto">
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-blue-600 text-2xl">🔐</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Iniciar Sesión</h2>
+                        <p class="text-gray-600 mt-2">Accede al sistema de búsqueda de patentes</p>
+                    </div>
+                    <form id="login-form" class="space-y-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                            <input type="email" id="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                            <input type="password" id="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                    
+                        <div>
+                            <!-- Endpoint login ToDo-->
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">Ingresar</button>
+                        </div>
+                    </form>
+                    <div class="mt-6 text-center">
+                        <a><p class="text-sm text-gray-600" id="abrir-modal-registro">Si no tienes cuenta <strong>registrate!</strong></p></a>
+                    </div>
+                </div>
+            </section>
+            <section id="error-message" class="max-w-md mx-auto mt-6 hidden">
+                <div class="bg-red-100 text-red-700 p-4 rounded-lg shadow-lg">
+                    <p id="error-text" class="text-sm">Error: Credenciales inválidas. Por favor, inténtalo de nuevo.</p>
+                </div>
+            </section>
+            <section id="registro-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-8 relative">
+                    <button id="cerrar-modal-registro" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Registro de Usuario</h3>
+                    <form id="register-form" class="space-y-4">
+                        <div>
+                            <label for="register-nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                            <input type="text" id="register-nombre" name="nombre" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="register-email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                            <input type="email" id="register-email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="register-password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                            <input type="password" id="register-password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="register-fechaNacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
+                            <input type="date" id="register-fechaNacimiento" name="fechaNacimiento" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="register-tipodocumento" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
+                            <select id="register-tipodocumento" name="tipodocumento" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                                <option value="">Seleccione...</option>
+                                <option value="NIT">NIT</option>
+                                <option value="CC">CC</option>
+                                <option value="TI">TI</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="register-doc" class="block text-sm font-medium text-gray-700"># Documento</label>
+                            <input type="number" id="register-doc" name="Documento" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="register-celular" class="block text-sm font-medium text-gray-700">Celular</label>
+                            <input type="tel" id="register-celular" name="celular" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors" id="boton-registro">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+        <footer class="bg-gray-800 text-white py-6">
+            <div class="container mx-auto px-4 text-center">
+                <p>Sistema de Búsqueda de Patentes &copy; 2025 - Todos los derechos reservados</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
