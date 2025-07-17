@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class SolicitudPatenteService {
-
     @Autowired
     private SolicitudPatenteRepository solicitudPatenteRepository;
 
@@ -47,18 +46,9 @@ public class SolicitudPatenteService {
             throw new RuntimeException("Ya existe una patente aprobada con este expediente");
         }
 
-        // Obtener usuarios
+        // Obtener solicitante
         Usuario solicitante = usuarioRepository.findById(solicitudDTO.getSolicitanteId())
                 .orElseThrow(() -> new RuntimeException("Solicitante no encontrado"));
-        
-        Usuario inventor = usuarioRepository.findById(solicitudDTO.getInventorId())
-                .orElseThrow(() -> new RuntimeException("Inventor no encontrado"));
-
-        Usuario apoderado = null;
-        if (solicitudDTO.getApoderadoId() != null) {
-            apoderado = usuarioRepository.findById(solicitudDTO.getApoderadoId())
-                    .orElseThrow(() -> new RuntimeException("Apoderado no encontrado"));
-        }
 
         // Crear solicitud
         SolicitudPatente solicitud = new SolicitudPatente();
@@ -66,10 +56,10 @@ public class SolicitudPatenteService {
         solicitud.setTipoPatente(solicitudDTO.getTipoPatente());
         solicitud.setTitulo(solicitudDTO.getTitulo());
         solicitud.setFecha(solicitudDTO.getFecha());
-        solicitud.setEstado("PENDIENTE");
+        solicitud.setEstado(solicitudDTO.getEstado());
         solicitud.setSolicitante(solicitante);
-        solicitud.setInventor(inventor);
-        solicitud.setApoderado(apoderado);
+        solicitud.setInventor(solicitante); // Por ahora usamos el solicitante como inventor
+        solicitud.setApoderado(null); // Por ahora no manejamos apoderado
         solicitud.setCip(solicitudDTO.getCip());
 
         SolicitudPatente solicitudGuardada = solicitudPatenteRepository.save(solicitud);
@@ -113,8 +103,10 @@ public class SolicitudPatenteService {
         SolicitudPatente solicitud = solicitudPatenteRepository.findById(solicitudId)
                 .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
 
-        if (!"PENDIENTE".equals(solicitud.getEstado())) {
-            throw new RuntimeException("Solo se pueden aprobar solicitudes pendientes");
+        // Verificar que la solicitud esté pendiente (ignorando mayúsculas/minúsculas)
+        String estado = solicitud.getEstado();
+        if (!"PENDIENTE".equalsIgnoreCase(estado)) {
+            throw new RuntimeException("Solo se pueden aprobar solicitudes pendientes. Estado actual: " + estado);
         }
 
         // Crear patente
@@ -125,7 +117,7 @@ public class SolicitudPatenteService {
         patente.setFecha(solicitud.getFecha());
         patente.setEstado("Publicada sin pago");
         patente.setInventor(solicitud.getInventor().getNombre());
-        patente.setApoderado(solicitud.getApoderado() != null ? solicitud.getApoderado().getNombre() : null);
+        patente.setApoderado(null); // Por ahora no manejamos apoderado
         patente.setCip(solicitud.getCip());
 
         Patente patenteGuardada = patenteRepository.save(patente);
@@ -149,7 +141,7 @@ public class SolicitudPatenteService {
         SolicitudPatente solicitud = solicitudPatenteRepository.findById(solicitudId)
                 .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
 
-        if (!"PENDIENTE".equals(solicitud.getEstado())) {
+        if (!"PENDIENTE".equalsIgnoreCase(solicitud.getEstado())) {
             throw new RuntimeException("Solo se pueden rechazar solicitudes pendientes");
         }
 
@@ -189,8 +181,8 @@ public class SolicitudPatenteService {
                 solicitud.getFecha(),
                 solicitud.getEstado(),
                 solicitud.getSolicitante().getNombre(),
-                solicitud.getInventor().getNombre(),
-                solicitud.getApoderado() != null ? solicitud.getApoderado().getNombre() : null,
+                solicitud.getInventor().getNombre(), // Por ahora usamos el nombre del usuario inventor
+                null, // Por ahora no manejamos apoderado
                 solicitud.getCip()
         );
     }

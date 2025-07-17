@@ -65,8 +65,8 @@
                                 <span class="text-2xl">📊</span>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">Búsquedas Hoy</p>
-                                <p class="text-2xl font-bold text-gray-900" id="busquedas-hoy">0</p>
+                                <p class="text-sm font-medium text-gray-600">Solicitudes Pendientes</p>
+                                <p class="text-2xl font-bold text-gray-900" id="solicitudes-pendientes">0</p>
                             </div>
                         </div>
                     </div>
@@ -76,13 +76,13 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <!-- User Management -->
                     <div class="bg-white p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-bold mb-4">Gestión de Usuarios</h3>
+                        <h3 class="text-xl font-bold mb-4">Gestión de Administradores</h3>
                         <div class="space-y-4">
                             <button id="view-users-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
                                 Ver Todos los Usuarios
                             </button>
-                            <button id="add-user-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors">
-                                Agregar Nuevo Usuario
+                            <button id="add-admin-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors">
+                                Agregar Nuevo Administrador
                             </button>
                         </div>
                     </div>
@@ -94,18 +94,10 @@
                             <button id="view-patents-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
                                 Ver Todas las Patentes
                             </button>
-                            <button id="add-patent-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors">
-                                Agregar Nueva Patente
+                            <button id="review-solicitudes-btn" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-md transition-colors">
+                                Revisar Solicitudes Pendientes
                             </button>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="bg-white p-6 rounded-lg shadow-lg mt-8">
-                    <h3 class="text-xl font-bold mb-4">Actividad Reciente</h3>
-                    <div id="recent-activity" class="space-y-3">
-                        <p class="text-gray-500 text-center py-4">Cargando actividad reciente...</p>
                     </div>
                 </div>
             </section>
@@ -115,6 +107,73 @@
                 <p>Sistema de Búsqueda de Patentes &copy; 2025 - Todos los derechos reservados</p>
             </div>
         </footer>
+    </div>
+
+    <!-- Modal para agregar administrador -->
+    <div id="add-admin-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Agregar Nuevo Administrador</h3>
+                <button id="close-admin-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <form id="add-admin-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
+                    <select name="tipoDocumento" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Seleccionar...</option>
+                        <option value="CC">Cédula de Ciudadanía</option>
+                        <option value="CE">Cédula de Extranjería</option>
+                        <option value="TI">Tarjeta de Identidad</option>
+                        <option value="PP">Pasaporte</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Número de Documento</label>
+                    <input type="text" name="noDocumento" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                    <input type="text" name="nombre" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                    <input type="email" name="correo" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Celular</label>
+                    <input type="tel" name="celular" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento</label>
+                    <input type="date" name="fechaNacimiento" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                    <input type="password" name="contrasena" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex space-x-4 pt-4">
+                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
+                        Registrar Administrador
+                    </button>
+                    <button type="button" id="cancel-admin-btn" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-md transition-colors">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para revisar solicitudes -->
+    <div id="review-solicitudes-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Revisar Solicitudes de Patentes</h3>
+                <button id="close-review-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div id="solicitudes-container" class="space-y-4">
+                <p class="text-gray-500 text-center py-8">Cargando solicitudes...</p>
+            </div>
+        </div>
     </div>
 
     <script src="/js/admin.js"></script>

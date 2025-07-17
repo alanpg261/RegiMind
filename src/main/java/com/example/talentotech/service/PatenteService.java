@@ -148,6 +148,40 @@ public class PatenteService {
         return patenteRepository.count();
     }
 
+    // Obtener patentes recientes (últimos 30 días)
+    public long contarPatentesRecientes() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -30);
+        Date fechaLimite = cal.getTime();
+
+        return patenteRepository.findAll().stream()
+            .filter(p -> p.getFecha() != null && p.getFecha().after(fechaLimite))
+            .count();
+    }
+
+    // Obtener patentes paginadas para admin
+    public PaginaRespuestaDTO<PatenteRespuestaDTO> obtenerPatentesPaginadas(int page, int size) {
+        List<Patente> todasLasPatentes = patenteRepository.findAll();
+
+        // Aplicar paginación
+        int inicio = page * size;
+        int fin = Math.min(inicio + size, todasLasPatentes.size());
+
+        List<Patente> patentesPagina = todasLasPatentes.subList(inicio, fin);
+
+        // Convertir a DTOs
+        List<PatenteRespuestaDTO> dtoPagina = patentesPagina.stream()
+            .map(this::convertirADTO)
+            .collect(Collectors.toList());
+
+        return new PaginaRespuestaDTO<>(
+            dtoPagina,
+            page,
+            size,
+            (long) todasLasPatentes.size()
+        );
+    }
+
     // Obtener patentes por solicitante
     public List<PatenteRespuestaDTO> obtenerPatentesPorSolicitante(Integer solicitanteId) {
         Usuario solicitante = usuarioRepository.findById(solicitanteId)

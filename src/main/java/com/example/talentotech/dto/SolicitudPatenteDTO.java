@@ -18,13 +18,16 @@ public class SolicitudPatenteDTO {
     @NotNull(message = "La fecha es obligatoria")
     private Date fecha;
     
+    @NotBlank(message = "El estado es obligatorio")
+    private String estado;
+    
     @NotNull(message = "El ID del solicitante es obligatorio")
     private Integer solicitanteId;
     
-    @NotNull(message = "El ID del inventor es obligatorio")
-    private Integer inventorId;
+    @NotBlank(message = "El inventor es obligatorio")
+    private String inventor;
     
-    private Integer apoderadoId;
+    private String apoderado;
     
     private String cip;
 
@@ -46,14 +49,17 @@ public class SolicitudPatenteDTO {
     public Date getFecha() { return fecha; }
     public void setFecha(Date fecha) { this.fecha = fecha; }
 
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
+
     public Integer getSolicitanteId() { return solicitanteId; }
     public void setSolicitanteId(Integer solicitanteId) { this.solicitanteId = solicitanteId; }
 
-    public Integer getInventorId() { return inventorId; }
-    public void setInventorId(Integer inventorId) { this.inventorId = inventorId; }
+    public String getInventor() { return inventor; }
+    public void setInventor(String inventor) { this.inventor = inventor; }
 
-    public Integer getApoderadoId() { return apoderadoId; }
-    public void setApoderadoId(Integer apoderadoId) { this.apoderadoId = apoderadoId; }
+    public String getApoderado() { return apoderado; }
+    public void setApoderado(String apoderado) { this.apoderado = apoderado; }
 
     public String getCip() { return cip; }
     public void setCip(String cip) { this.cip = cip; }

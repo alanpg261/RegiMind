@@ -194,4 +194,89 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (prevPageBtn) prevPageBtn.addEventListener('click', () => navigatePage('prev'));
     if (nextPageBtn) nextPageBtn.addEventListener('click', () => navigatePage('next'));
+
+    // --- Solicitar nueva patente ---
+    const btnSolicitarPatente = document.getElementById('btn-solicitar-patente');
+    const modalSolicitarPatente = document.getElementById('modal-solicitar-patente');
+    const closeModalSolicitar = document.getElementById('close-modal-solicitar');
+    const cancelarSolicitudBtn = document.getElementById('cancelar-solicitud-btn');
+    const formSolicitarPatente = document.getElementById('form-solicitar-patente');
+
+    // Mostrar modal
+    if (btnSolicitarPatente) {
+        btnSolicitarPatente.addEventListener('click', () => {
+            modalSolicitarPatente.classList.remove('hidden');
+            modalSolicitarPatente.classList.add('flex');
+        });
+    }
+    // Cerrar modal
+    if (closeModalSolicitar) {
+        closeModalSolicitar.addEventListener('click', () => {
+            modalSolicitarPatente.classList.add('hidden');
+            modalSolicitarPatente.classList.remove('flex');
+        });
+    }
+    if (cancelarSolicitudBtn) {
+        cancelarSolicitudBtn.addEventListener('click', () => {
+            modalSolicitarPatente.classList.add('hidden');
+            modalSolicitarPatente.classList.remove('flex');
+        });
+    }
+    // Cerrar modal al hacer clic fuera
+    window.addEventListener('click', function(e) {
+        if (e.target === modalSolicitarPatente) {
+            modalSolicitarPatente.classList.add('hidden');
+            modalSolicitarPatente.classList.remove('flex');
+        }
+    });
+
+    // Enviar solicitud de patente
+    if (formSolicitarPatente) {
+        formSolicitarPatente.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const usuario = JSON.parse(localStorage.getItem('usuario') || {});
+            if (!usuario || !usuario.id) {
+                alert('No se pudo identificar al usuario. Inicie sesión nuevamente.');
+                return;
+            }
+            const formData = new FormData(formSolicitarPatente);
+            const data = {
+                expediente: formData.get('expediente'),
+                tipoPatente: formData.get('tipoPatente'),
+                titulo: formData.get('titulo'),
+                fecha: formData.get('fecha'),
+                estado: formData.get('estado'),
+                inventor: formData.get('inventor'),
+                apoderado: formData.get('apoderado'),
+                cip: formData.get('cip'),
+                solicitanteId: usuario.id // El usuario autenticado será el solicitante
+            };
+            
+            fetch('http://localhost:8080/api/solicitudes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(text || `HTTP ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(() => {
+                alert('Solicitud enviada correctamente');
+                formSolicitarPatente.reset();
+                modalSolicitarPatente.classList.add('hidden');
+                modalSolicitarPatente.classList.remove('flex');
+            })
+            .catch(error => {
+                console.error('Error al enviar la solicitud:', error);
+                alert('Error al enviar la solicitud: ' + error.message);
+            });
+        });
+    }
 }); 
