@@ -78,9 +78,9 @@
                     <div class="bg-white p-6 rounded-lg shadow-lg">
                         <h3 class="text-xl font-bold mb-4">Gestión de Administradores</h3>
                         <div class="space-y-4">
-                            <button id="view-users-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
+                            <!--<button id="view-users-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
                                 Ver Todos los Usuarios
-                            </button>
+                            </button>-->
                             <button id="add-admin-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors">
                                 Agregar Nuevo Administrador
                             </button>
@@ -91,9 +91,9 @@
                     <div class="bg-white p-6 rounded-lg shadow-lg">
                         <h3 class="text-xl font-bold mb-4">Gestión de Patentes</h3>
                         <div class="space-y-4">
-                            <button id="view-patents-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
+                            <!--<button id="view-patents-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
                                 Ver Todas las Patentes
-                            </button>
+                            </button>-->
                             <button id="review-solicitudes-btn" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-md transition-colors">
                                 Revisar Solicitudes Pendientes
                             </button>
@@ -172,6 +172,32 @@
             </div>
             <div id="solicitudes-container" class="space-y-4">
                 <p class="text-gray-500 text-center py-8">Cargando solicitudes...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver todos los usuarios -->
+    <div id="view-users-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Lista de Usuarios</h3>
+                <button id="close-users-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div id="users-table-container">
+                <p class="text-gray-500 text-center py-8">Cargando usuarios...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver todas las patentes -->
+    <div id="view-patents-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Lista de Patentes</h3>
+                <button id="close-patents-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div id="patents-table-container">
+                <p class="text-gray-500 text-center py-8">Cargando patentes...</p>
             </div>
         </div>
     </div>

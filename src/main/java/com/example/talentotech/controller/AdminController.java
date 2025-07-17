@@ -45,11 +45,15 @@ public class AdminController {
         // Estadísticas de actividad (simuladas por ahora)
         long busquedasHoy = 156; // Esto se puede implementar con un sistema de logs
         
+        // Solicitudes pendientes reales
+        long solicitudesPendientes = solicitudPatenteService.contarSolicitudesPorEstado("PENDIENTE");
+        
         stats.put("totalUsuarios", totalUsuarios);
         stats.put("usuariosHoy", usuariosHoy);
         stats.put("totalPatentes", totalPatentes);
         stats.put("patentesRecientes", patentesRecientes);
         stats.put("busquedasHoy", busquedasHoy);
+        stats.put("solicitudesPendientes", solicitudesPendientes);
         
         return ResponseEntity.ok(stats);
     }

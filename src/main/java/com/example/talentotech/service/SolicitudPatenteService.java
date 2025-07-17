@@ -56,7 +56,7 @@ public class SolicitudPatenteService {
         solicitud.setTipoPatente(solicitudDTO.getTipoPatente());
         solicitud.setTitulo(solicitudDTO.getTitulo());
         solicitud.setFecha(solicitudDTO.getFecha());
-        solicitud.setEstado(solicitudDTO.getEstado());
+        solicitud.setEstado("PENDIENTE"); // Siempre pendiente
         solicitud.setSolicitante(solicitante);
         solicitud.setInventor(solicitante); // Por ahora usamos el solicitante como inventor
         solicitud.setApoderado(null); // Por ahora no manejamos apoderado

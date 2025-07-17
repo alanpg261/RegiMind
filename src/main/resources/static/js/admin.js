@@ -127,6 +127,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Elementos de los nuevos modales
+    const viewUsersModal = document.getElementById('view-users-modal');
+    const closeUsersModal = document.getElementById('close-users-modal');
+    const usersTableContainer = document.getElementById('users-table-container');
+
+    const viewPatentsModal = document.getElementById('view-patents-modal');
+    const closePatentsModal = document.getElementById('close-patents-modal');
+    const patentsTableContainer = document.getElementById('patents-table-container');
+
+    // Abrir modal de usuarios
+    if (viewUsersBtn) {
+        viewUsersBtn.addEventListener('click', function() {
+            viewUsersModal.classList.remove('hidden');
+            viewUsersModal.classList.add('flex');
+            loadUsersTable();
+        });
+    }
+    // Cerrar modal de usuarios
+    if (closeUsersModal) {
+        closeUsersModal.addEventListener('click', function() {
+            viewUsersModal.classList.add('hidden');
+            viewUsersModal.classList.remove('flex');
+        });
+    }
+
+    // Abrir modal de patentes
+    if (viewPatentsBtn) {
+        viewPatentsBtn.addEventListener('click', function() {
+            viewPatentsModal.classList.remove('hidden');
+            viewPatentsModal.classList.add('flex');
+            loadPatentsTable();
+        });
+    }
+    // Cerrar modal de patentes
+    if (closePatentsModal) {
+        closePatentsModal.addEventListener('click', function() {
+            viewPatentsModal.classList.add('hidden');
+            viewPatentsModal.classList.remove('flex');
+        });
+    }
+
     // Cerrar modales al hacer clic fuera
     window.addEventListener('click', function(e) {
         if (e.target === addAdminModal) {
@@ -137,20 +178,15 @@ document.addEventListener('DOMContentLoaded', function() {
             reviewSolicitudesModal.classList.add('hidden');
             reviewSolicitudesModal.classList.remove('flex');
         }
+        if (e.target === viewUsersModal) {
+            viewUsersModal.classList.add('hidden');
+            viewUsersModal.classList.remove('flex');
+        }
+        if (e.target === viewPatentsModal) {
+            viewPatentsModal.classList.add('hidden');
+            viewPatentsModal.classList.remove('flex');
+        }
     });
-
-    // Botones de gestión
-    if (viewUsersBtn) {
-        viewUsersBtn.addEventListener('click', function() {
-            alert('Función de ver usuarios próximamente disponible');
-        });
-    }
-
-    if (viewPatentsBtn) {
-        viewPatentsBtn.addEventListener('click', function() {
-            alert('Función de ver patentes próximamente disponible');
-        });
-    }
 
     function loadStats() {
         fetch('http://localhost:8080/api/admin/stats')
@@ -314,4 +350,86 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     };
+
+    // Función para cargar usuarios en tabla
+    function loadUsersTable() {
+        usersTableContainer.innerHTML = '<p class="text-gray-500 text-center py-8">Cargando usuarios...</p>';
+        fetch('http://localhost:8080/api/admin/usuarios?page=0&size=100')
+            .then(response => response.json())
+            .then(data => {
+                if (!data || !data.contenido || data.contenido.length === 0) {
+                    usersTableContainer.innerHTML = '<p class="text-gray-500 text-center py-8">No hay usuarios registrados.</p>';
+                    return;
+                }
+                const rows = data.contenido.map(usuario => `
+                    <tr>
+                        <td class="px-4 py-2 border">${usuario.id}</td>
+                        <td class="px-4 py-2 border">${usuario.nombre}</td>
+                        <td class="px-4 py-2 border">${usuario.correo}</td>
+                        <td class="px-4 py-2 border">${usuario.tipoUsuario}</td>
+                    </tr>
+                `).join('');
+                usersTableContainer.innerHTML = `
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border border-gray-200">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="px-4 py-2 border">ID</th>
+                                    <th class="px-4 py-2 border">Nombre</th>
+                                    <th class="px-4 py-2 border">Correo</th>
+                                    <th class="px-4 py-2 border">Rol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            })
+            .catch(() => {
+                usersTableContainer.innerHTML = '<p class="text-red-500 text-center py-8">Error al cargar usuarios.</p>';
+            });
+    }
+
+    // Función para cargar patentes en tabla
+    function loadPatentsTable() {
+        patentsTableContainer.innerHTML = '<p class="text-gray-500 text-center py-8">Cargando patentes...</p>';
+        fetch('http://localhost:8080/api/admin/patentes?page=0&size=100')
+            .then(response => response.json())
+            .then(data => {
+                if (!data || !data.contenido || data.contenido.length === 0) {
+                    patentsTableContainer.innerHTML = '<p class="text-gray-500 text-center py-8">No hay patentes registradas.</p>';
+                    return;
+                }
+                const rows = data.contenido.map(patente => `
+                    <tr>
+                        <td class="px-4 py-2 border">${patente.id}</td>
+                        <td class="px-4 py-2 border">${patente.titulo}</td>
+                        <td class="px-4 py-2 border">${patente.expediente}</td>
+                        <td class="px-4 py-2 border">${patente.estado}</td>
+                    </tr>
+                `).join('');
+                patentsTableContainer.innerHTML = `
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border border-gray-200">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="px-4 py-2 border">ID</th>
+                                    <th class="px-4 py-2 border">Título</th>
+                                    <th class="px-4 py-2 border">Expediente</th>
+                                    <th class="px-4 py-2 border">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            })
+            .catch(() => {
+                patentsTableContainer.innerHTML = '<p class="text-red-500 text-center py-8">Error al cargar patentes.</p>';
+            });
+    }
 }); 

@@ -245,11 +245,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 tipoPatente: formData.get('tipoPatente'),
                 titulo: formData.get('titulo'),
                 fecha: formData.get('fecha'),
-                estado: formData.get('estado'),
+                estado: "PENDIENTE",
                 inventor: formData.get('inventor'),
                 apoderado: formData.get('apoderado'),
                 cip: formData.get('cip'),
-                solicitanteId: usuario.id // El usuario autenticado será el solicitante
+                solicitanteId: usuario.id 
             };
             
             fetch('http://localhost:8080/api/solicitudes', {
