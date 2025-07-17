@@ -9,19 +9,21 @@ public class PatenteSolicitante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "patente_id")
-    private Integer patenteId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patente_id")
+    private Patente patente;
 
-    @Column(name = "solicitante_id")
-    private Integer solicitanteId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "solicitante_id")
+    private Usuario solicitante;
 
     // Getters y setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
-    public Integer getPatenteId() { return patenteId; }
-    public void setPatenteId(Integer patenteId) { this.patenteId = patenteId; }
+    public Patente getPatente() { return patente; }
+    public void setPatente(Patente patente) { this.patente = patente; }
 
-    public Integer getSolicitanteId() { return solicitanteId; }
-    public void setSolicitanteId(Integer solicitanteId) { this.solicitanteId = solicitanteId; }
+    public Usuario getSolicitante() { return solicitante; }
+    public void setSolicitante(Usuario solicitante) { this.solicitante = solicitante; }
 } 

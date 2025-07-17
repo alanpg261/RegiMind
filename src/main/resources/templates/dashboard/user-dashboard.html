@@ -25,7 +25,6 @@
             </div>
         </header>
         <main class="flex-grow container mx-auto px-4 py-8">
-            <!-- Browser Dashboard -->
             <section id="browser-dashboard">
                 <!-- Welcome Banner -->
                 <div class="search-card p-6 rounded-lg shadow-lg mb-8">
@@ -35,8 +34,119 @@
                     </div>
                 </div>
                 <!-- Search Section -->
-                <!-- ...todo el contenido de búsqueda y resultados aquí, igual que en tu HTML original... -->
-                <!-- Copia desde <div class="bg-white p-6 rounded-lg shadow-lg mb-8"> hasta el final de la sección de usuario -->
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+                    <h3 class="text-xl font-bold mb-4">Buscar Patentes</h3>
+                    <!-- Búsqueda Simple -->
+                    <form id="search-form" class="space-y-4 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="search-term" class="block text-sm font-medium text-gray-700">Término de Búsqueda</label>
+                                <input type="text" id="search-term" name="searchTerm" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Ingresa palabras clave...">
+                            </div>
+                            <div>
+                                <label for="search-type" class="block text-sm font-medium text-gray-700">Tipo de Búsqueda</label>
+                                <select id="search-type" name="searchType" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="titulo">Título</option>
+                                    <option value="expediente">Expediente</option>
+                                    <option value="inventor">Inventor</option>
+                                    <option value="cip">CIP</option>
+                                    <option value="tipoPatente">Tipo de Patente</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="search-limit" class="block text-sm font-medium text-gray-700">Límite de Resultados</label>
+                                <select id="search-limit" name="limit" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-center">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md transition-colors font-medium">
+                                🔍 Buscar Patentes
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Búsqueda Avanzada -->
+                    <div class="border-t pt-6">
+                        <h4 class="text-lg font-semibold mb-3">Búsqueda Avanzada</h4>
+                        <form id="advanced-search-form" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="advanced-titulo" class="block text-sm font-medium text-gray-700">Título de la patente</label>
+                                    <input type="text" id="advanced-titulo" name="titulo" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Título de la patente">
+                                </div>
+                                <div>
+                                    <label for="advanced-expediente" class="block text-sm font-medium text-gray-700">Expediente</label>
+                                    <input type="text" id="advanced-expediente" name="expediente" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Número de expediente">
+                                </div>
+                                <div>
+                                    <label for="advanced-inventor" class="block text-sm font-medium text-gray-700">Inventor</label>
+                                    <input type="text" id="advanced-inventor" name="inventor" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Nombre del inventor">
+                                </div>
+                                <div>
+                                    <label for="advanced-tipo" class="block text-sm font-medium text-gray-700">Tipo de Patente</label>
+                                    <select id="advanced-tipo" name="tipoPatente" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Todos los tipos</option>
+                                        <option value="Patente de Invención Nacional">Patente de Invención Nacional</option>
+                                        <option value="Patente de Modelo de Utilidad">Patente de Modelo de Utilidad</option>
+                                        <option value="Patente de Diseño Industrial">Patente de Diseño Industrial</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="advanced-estado" class="block text-sm font-medium text-gray-700">Estado</label>
+                                    <select id="advanced-estado" name="estado" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Todos los estados</option>
+                                        <option value="Publicada sin pago">Publicada sin pago</option>
+                                        <option value="En trámite">En trámite</option>
+                                        <option value="Concedida">Concedida</option>
+                                        <option value="Rechazada">Rechazada</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="advanced-cip" class="block text-sm font-medium text-gray-700">Clasificación CIP</label>
+                                    <input type="text" id="advanced-cip" name="cip" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Clasificación CIP">
+                                </div>
+                            </div>
+                            <div class="flex justify-center space-x-4">
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-md transition-colors font-medium">
+                                    🔍 Búsqueda Avanzada
+                                </button>
+                                <button type="button" id="clear-advanced-form" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-md transition-colors font-medium">
+                                    Limpiar Filtros
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Results Section -->
+                <div id="results-section" class="hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">Resultados de la Búsqueda</h3>
+                            <div class="flex items-center space-x-4">
+                                <span id="results-count" class="text-sm text-gray-600"></span>
+                                <div class="flex space-x-2">
+                                    <button id="prev-page" class="px-3 bg-gray-200 hover:bg-gray-300 rounded text-sm">Anterior</button>
+                                    <span id="page-info" class="px-3 py-1 text-sm text-gray-600"></span>
+                                    <button id="next-page" class="px-3 bg-gray-200 hover:bg-gray-300 rounded text-sm">Siguiente</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="results-container" class="space-y-4">
+                            <!-- Los resultados se cargarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Loading Section -->
+                <div id="loading-section" class="hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                        <p class="mt-4 text-gray-600">Buscando patentes...</p>
+                    </div>
+                </div>
             </section>
         </main>
         <footer class="bg-gray-800 text-white py-6">
@@ -45,5 +155,6 @@
             </div>
         </footer>
     </div>
+    <script src="/js/dashboard.js"></script>
 </body>
 </html>
